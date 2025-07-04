@@ -1,4 +1,4 @@
-import { useActionState, useState } from "react";
+import { useState } from "react";
 import com from "./assets/complete.png";
 import del from "./assets/delete.png";
 import "./App.css";
@@ -13,12 +13,11 @@ function App() {
     };
 
     const handleClick = (action, index) => {
-        let arr=[...allTask];
+        let arr = [...allTask];
         if (action === "complete") {
-            arr[index].complete=!arr[index].complete;
-        }
-        else{
-            arr=arr.filter((value,i)=>i!=index)
+            arr[index].complete = !arr[index].complete;
+        } else {
+            arr = arr.filter((value, i) => i != index);
         }
         setAllTask(arr);
     };
@@ -44,7 +43,13 @@ function App() {
                                 className="bg-amber-950 m-1.5 p-1 rounded flex flex-row justify-between"
                                 key={key}
                             >
-                                <p  className={item.complete?"line-through":""} >{key + 1 + ". " + item.task}</p>
+                                <p
+                                    className={
+                                        item.complete ? "line-through" : ""
+                                    }
+                                >
+                                    {key + 1 + ". " + item.task}
+                                </p>
                                 <div className="flex flex-row gap-3">
                                     <img
                                         onClick={() =>
