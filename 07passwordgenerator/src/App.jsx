@@ -1,12 +1,21 @@
-import { useEffect, useState } from "react";
+import { useRef } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 function App() {
     const [password, setPassword] = useState("");
     const [Length, setLenth] = useState(8);
-    const [number, setNumber] = useState(false);
-    const [character, setCharacter] = useState(false);
+    const [numberAllowed, setNumberAllowed] = useState(false);
+    const [characterAllowed, setCharacterAllowed] = useState(false);
 
-    const passwordGenerator = (len, str) => {
+    //useRef
+    const passwordRef=useRef();
+
+    const copyPasswordToClipBoard=()=>{
+        passwordRef.current?.select();
+        window.navigator.clipboard.writeText(password);
+    }
+
+    const passwordGenerator = useCallback((len, str) => {
         let password = "";
 
         for (let i = 0; i < len; i++) {
@@ -15,7 +24,7 @@ function App() {
         }
 
         return password;
-    };
+    },[Length,numberAllowed,characterAllowed]);
 
     useEffect(() => {
         //making password string
@@ -25,9 +34,9 @@ function App() {
             let specialChar = "!@#$%^&*()-_+";
             let numberStr = "0123456789";
 
-            if (number) passwordString += numberStr;
+            if (numberAllowed) passwordString += numberStr;
 
-            if (character) passwordString += specialChar;
+            if (characterAllowed) passwordString += specialChar;
 
             return passwordString;
         };
@@ -36,7 +45,7 @@ function App() {
         let madedPassword = passwordGenerator(Length, str);
 
         setPassword(madedPassword);
-    }, [Length, number, character]);
+    }, [Length, numberAllowed, characterAllowed]);
 
     return (
         <>
@@ -49,8 +58,9 @@ function App() {
                             type="text"
                             value={password}
                             readOnly
+                            ref={passwordRef}
                         />
-                        <button className="p-2 rounded-r bg-teal-500 text-white">
+                        <button onClick={copyPasswordToClipBoard} className="p-2 rounded-r bg-teal-500 text-white">
                             copy
                         </button>
                     </div>
@@ -71,14 +81,14 @@ function App() {
                         <div className="gap-1 flex flex-row">
                             <input
                                 type="checkbox"
-                                onChange={() => setNumber(!number)}
+                                onChange={() => setNumberAllowed(!numberAllowed)}
                             />
                             <label htmlFor="">Numbers</label>
                         </div>
                         <div className="gap-1 flex flex-row">
                             <input
                                 type="checkbox"
-                                onChange={() => setCharacter(!character)}
+                                onChange={() => setCharacterAllowed(!characterAllowed)}
                             />
                             <label>Chararters</label>
                         </div>
