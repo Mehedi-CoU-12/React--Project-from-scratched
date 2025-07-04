@@ -11,27 +11,27 @@ function App() {
 
         for (let i = 0; i < len; i++) {
             let index = Math.floor(Math.random() * str.length);
-
             password += str[index];
         }
 
         return password;
     };
 
-    const makePasswordString = () => {
-        let passwordString =
-            "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        let specialChar = "!@#$%^&*()-_+";
-        let numberStr = "0123456789";
-
-        if (number) passwordString += numberStr;
-
-        if (character) passwordString += specialChar;
-
-        return passwordString;
-    };
-
     useEffect(() => {
+        //making password string
+        const makePasswordString = () => {
+            let passwordString =
+                "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            let specialChar = "!@#$%^&*()-_+";
+            let numberStr = "0123456789";
+
+            if (number) passwordString += numberStr;
+
+            if (character) passwordString += specialChar;
+
+            return passwordString;
+        };
+
         let str = makePasswordString();
         let madedPassword = passwordGenerator(Length, str);
 
@@ -40,16 +40,17 @@ function App() {
 
     return (
         <>
-            <div className="bg-slate-900 w-full h-screen text-white flex items-center justify-center">
+            <div className="bg-slate-900 w-full h-screen flex items-center flex-col justify-center text-orange-600">
+                <h1 className="text-white text-5xl mb-5">Password Generator</h1>
                 <div className="bg-blue-950 p-5 rounded-md flex flex-col gap-3">
                     <div>
                         <input
-                            className="p-2 rounded-l text-black font-sans"
+                            className="p-2 rounded-l font-sans outline-none font-semibold text-md"
                             type="text"
                             value={password}
                             readOnly
                         />
-                        <button className="p-2 rounded-r bg-teal-500">
+                        <button className="p-2 rounded-r bg-teal-500 text-white">
                             copy
                         </button>
                     </div>
@@ -67,14 +68,14 @@ function App() {
                             />
                             <p>Length({Length})</p>
                         </div>
-                        <div>
+                        <div className="gap-1 flex flex-row">
                             <input
                                 type="checkbox"
                                 onChange={() => setNumber(!number)}
                             />
                             <label htmlFor="">Numbers</label>
                         </div>
-                        <div>
+                        <div className="gap-1 flex flex-row">
                             <input
                                 type="checkbox"
                                 onChange={() => setCharacter(!character)}
