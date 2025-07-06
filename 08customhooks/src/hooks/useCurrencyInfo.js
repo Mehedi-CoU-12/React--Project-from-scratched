@@ -16,7 +16,7 @@ function useCurrencyInfo(currency = "bdt") {
         response
             ?.then((res) => res?.data)
             .then((value) => {
-                setData(value);
+                setData(value[currency]);
             });
     }, [currency]);
 

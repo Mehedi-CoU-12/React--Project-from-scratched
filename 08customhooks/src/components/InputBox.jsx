@@ -1,24 +1,58 @@
-function InputBox(props) {
+import React, { useId } from "react";
+
+function InputBox({
+    label,
+    amount,
+    onAmountChange,
+    onCurrencyChange,
+    currencyOptions = [],
+    selectCurrency = "usd",
+    amountDisable = false,
+    currencyDisable = false,
+    className = "",
+}) {
+    const amountInputId = useId();
+
+
     return (
-        <>
-            <div className="flex flex-row justify-between rounded-md text-white gap-x-3.5">
-                <div className="flex flex-col items-center">
-                    <p>{props.name}</p>
-                    <input
-                        className="text-black w-12 text-center h-8 rounded-lg outline-none"
-                        type="number"
-                        value={0}
-                    />
-                </div>
-                <div className="flex flex-col items-center">
-                    <p>Current type</p>
-                    <select className="text-black rounded-lg w-12 text-center h-8 outline-none">
-                        <option value="usd">usd</option>
-                        <option value="tk">tk</option>
-                    </select>
-                </div>
+        <div className={`bg-white p-3 rounded-lg text-sm flex ${className}`}>
+            <div className="w-1/2">
+                <label
+                    htmlFor={amountInputId}
+                    className="text-black/40 mb-2 inline-block"
+                >
+                    {label}
+                </label>
+                <input
+                    id={amountInputId}
+                    className="outline-none w-full bg-transparent py-1.5"
+                    type="number"
+                    placeholder="Amount"
+                    disabled={amountDisable}
+                    value={amount}
+                    onChange={(e) =>
+                        onAmountChange && onAmountChange(Number(e.target.value))
+                    }
+                />
             </div>
-        </>
+            <div className="w-1/2 flex flex-wrap justify-end text-right">
+                <p className="text-black/40 mb-2 w-full">Currency Type</p>
+                <select
+                    className="rounded-lg px-1 py-1 bg-gray-100 cursor-pointer outline-none"
+                    value={selectCurrency}
+                    onChange={(e) =>
+                        onCurrencyChange && onCurrencyChange(e.target.value)
+                    }
+                    disabled={currencyDisable}
+                >
+                    {currencyOptions.map((currency,key) => (
+                        <option key={key} value={currency}>
+                            {currency}
+                        </option>
+                    ))}
+                </select>
+            </div>
+        </div>
     );
 }
 
