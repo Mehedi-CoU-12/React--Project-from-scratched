@@ -1,28 +1,16 @@
-import { useState } from "react";
-import "./App.css";
+import React, { useState } from "react";
+import Input from "./components/Input";
+
 
 function App() {
-    let obj = {
-        name: "mehedi",
-        age: 24,
-    };
-    const [user, setUser] = useState(obj);
-
-    function changeName() {
-      setUser({...user,name:'sumon'})
-    }
-
-    function changeAge() {
-      setUser({...user,age:24});
-    }
+    const [name, setName] = useState("");
 
     return (
-        <>
-            <h1>name: {user.name}</h1>
-            <h2>age:{user.age}</h2>
-            <button onClick={changeName}>change name</button>
-            <button onClick={changeAge}>change age</button>
-        </>
+        <div>
+            <h1>Receive info from child</h1>
+            <h2>Name:{name} </h2>
+            <Input onChangeName={(e)=>setName(e)}  />
+        </div>
     );
 }
 
