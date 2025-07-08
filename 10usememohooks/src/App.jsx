@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.css";
 import { useRef } from "react";
 
@@ -10,7 +10,7 @@ function App() {
     const pref = useRef();
     const handleClick = () => {
         setDark(!dark);
-        pref.current.style.backgroundColor = `${dark ? "red" : "green"}`;
+        pref.current.style.backgroundColor = `${dark ? "lightblue" : "green"}`;
     };
 
     const doubleTheNumber = useMemo(() => slowFuntion(number), [number]);
@@ -23,6 +23,19 @@ function App() {
         return num * 2;
     }
 
+    const styleCSS = useMemo(() => {
+        return {
+            backgroundColor: `${dark ? "lightblue" : "green"}`
+        }
+    }, [dark]);
+
+
+    useEffect(() => {
+        console.log("theme changed!");
+    }, [styleCSS]);
+
+    useEffect(() => {}, []);
+
     return (
         <>
             <input
@@ -31,7 +44,7 @@ function App() {
                 type="number"
             />
             <button onClick={handleClick}>change theme</button>
-            <p ref={pref} style={{ backgroundColor: "red", height: "100px" }}>
+            <p ref={pref} style={styleCSS}>
                 {doubleTheNumber}
             </p>
         </>
