@@ -1,9 +1,8 @@
 import React from "react";
 import { useState } from "react";
 
-function Folder({ explorer }) {
+function Folder({ explorer, handleInsertNode }) {
     const [expand, setExpand] = useState(false);
-    const [inputData, setInputData] = useState("");
 
     const [showInput, setShowInput] = useState({
         visible: false,
@@ -19,7 +18,14 @@ function Folder({ explorer }) {
 
     const hanleOnKeyDown = (e) => {
         if (e.which === 13 && e.target.value) {
-            setInputData(e.target.value.trim(""));
+            //add logic
+            handleInsertNode(
+                explorer.id,
+                e.target.value.trim(""),
+                showInput.isFolder
+            );
+
+            setShowInput({ ...showInput, visible: false });
         }
     };
 
@@ -66,7 +72,7 @@ function Folder({ explorer }) {
                         </div>
                     )}
                     {explorer.items.map((folder, key) => {
-                        return <Folder key={key} explorer={folder} />;
+                        return <Folder key={key} handleInsertNode={handleInsertNode} explorer={folder} />;
                     })}
                 </div>
             </div>
