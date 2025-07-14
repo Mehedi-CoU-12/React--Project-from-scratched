@@ -27,13 +27,13 @@ function App() {
                 explorer={explorerData}
             />
             <button
-                className="bg-red-900 text-white rounded-md m-10 p-2 font-bold"
+                className="bg-slate-300 text-white rounded m-10 p-0.5 font-bold"
                 onClick={() => {
                     localStorage.removeItem("explorerData");
                     window.location.reload();
                 }}
             >
-                Clear Tree
+                🗑
             </button>
         </div>
     );

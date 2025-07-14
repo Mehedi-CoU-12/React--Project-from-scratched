@@ -48,7 +48,7 @@ function Folder({ explorer, handleInsertNode }) {
                             className="pl-1 rounded-sm hover:bg-slate-200"
                             onClick={(e) => handleNewFileAndFolder(e, false)}
                         >
-                            🗄
+                            📄
                         </button>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ function Folder({ explorer, handleInsertNode }) {
                 <div style={{ display: expand ? "block" : "none" }}>
                     {showInput.visible && (
                         <div className="ml-5">
-                            <span>{showInput.isFolder ? `📁` : `🗄`}</span>
+                            <span>{showInput.isFolder ? `📁` : `📄`}</span>
                             <input
                                 autoFocus
                                 className="rounded text-left ml-2 p-1 h-6"
@@ -78,7 +78,7 @@ function Folder({ explorer, handleInsertNode }) {
             </div>
         );
     } else
-        return <p className="ml-6 m-1 p-0.5  w-56 h-6 ">🗄 {explorer.name}</p>;
+        return <p className="ml-6 m-1 p-0.5  w-56 h-6 ">📄 {explorer.name}</p>;
 }
 
 export default Folder;
