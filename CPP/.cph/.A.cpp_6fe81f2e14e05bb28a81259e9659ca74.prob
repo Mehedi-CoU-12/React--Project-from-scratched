@@ -1,1 +1,1 @@
-{"name":"Local: A","url":"/home/mehedi/Desktop/React/CPP/A.cpp","tests":[{"id":1752053471460,"input":"1\n999999999 999999999","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/mehedi/Desktop/React/CPP/A.cpp","group":"local","local":true}
+{"name":"Local: A","url":"/home/mehedi/Desktop/React/CPP/A.cpp","tests":[{"id":1752053471460,"input":"1\n3 2\n1 2 100\n4 5 200\n90 100 50","output":""}],"interactive":false,"memoryLimit":1024,"timeLimit":3000,"srcPath":"/home/mehedi/Desktop/React/CPP/A.cpp","group":"local","local":true}
