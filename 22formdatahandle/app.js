@@ -21,22 +21,37 @@ app.set("views", path.join(__dirname, "views"));
 //middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
 
-Handlebars.registerHelper("recursiveSumon", (obj) => {
-    let output = `<ul>`;
+//parse the data to show them into browser
+Handlebars.registerHelper("recursiveObjectTree", (obj) => {
+    if (typeof obj === "string" || typeof obj === "number") return obj;
 
-    for (const key in obj) {
-        if (typeof obj[key] === "object" && obj[key] !== null) {
-            output += `<li>${key}: ${Handlebars.helpers.recursiveSumon(
-                obj[key]
-            )} </li>`;
-        } else output += `<li>${key}: ${obj[key]} </li>`;
+    if (Array.isArray(obj)) {
+        const items = obj
+            .map((item) => {
+                return `<li>${Handlebars.helpers.recursiveObjectTree(
+                    item
+                )}</li>`;
+            })
+            .join("");
+
+        return `<ul>${items}</ul>`;
     }
 
-    output += `</ul>`;
+    if (typeof obj === "object") {
+        let result = `<ul>`;
+        for (const key in obj) {
+            result += `<li>${key}:${Handlebars.helpers.recursiveObjectTree(
+                obj[key]
+            )}</li>`;
+        }
 
-    return new Handlebars.SafeString(output);
+        result += "</ul>";
+
+        return result;
+    }
 });
 
+//
 Handlebars.registerHelper("stringParser", (str, userData) => {
     let i = 0;
     let result = "";
@@ -45,8 +60,9 @@ Handlebars.registerHelper("stringParser", (str, userData) => {
             let end = str.indexOf("}}", i);
 
             if (end != -1) {
-                let key = str.slice(i + 1, end);
+                let key = str.slice(i + 2, end);
                 result += userData[key];
+
                 i = end + 2;
             } else i++;
         } else {
@@ -55,18 +71,24 @@ Handlebars.registerHelper("stringParser", (str, userData) => {
         }
     }
 
-    return result;
+    const numberResult = Number(result);
+
+    if (isNaN(numberResult)) {
+        return result;
+    } else {
+        return numberResult;
+    }
 });
 
 Handlebars.registerHelper("userDataParser", (template, userData) => {
+    if (typeof template === "string")
+        return Handlebars.helpers.stringParser(template, userData);
+
     if (Array.isArray(template)) {
         return template.map((value) =>
             Handlebars.helpers.userDataParser(value, userData)
         );
     }
-
-    if (typeof template === "string")
-        return Handlebars.helpers.stringParser(template, userData);
 
     if (typeof template === "object") {
         let result = {};
@@ -93,16 +115,14 @@ app.post("/submit", (req, res) => {
 
     const data = Handlebars.helpers.userDataParser(template, userData);
 
-    console.log(data);
+    const result = userSchema.safeParse(data);
 
-    // const result = userSchema.safeParse(data);
+    if (!result.success)
+        return res.send(
+            "Invalid input: " + JSON.stringify(result.error.format())
+        );
 
-    // if (!result.success)
-    //     return res.send(
-    //         "Invalid input: " + JSON.stringify(result.error.format())
-    //     );
-
-    return res.render("result", { user: data });
+    return res.render("result", { user: result.data });
 });
 
 app.listen(PORT, () => {
