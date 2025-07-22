@@ -51,7 +51,7 @@ Handlebars.registerHelper("recursiveObjectTree", (obj) => {
     }
 });
 
-//
+//if the user data is String
 Handlebars.registerHelper("stringParser", (str, userData) => {
     let i = 0;
     let result = "";
@@ -80,6 +80,7 @@ Handlebars.registerHelper("stringParser", (str, userData) => {
     }
 });
 
+//replace template's placeholder with user data
 Handlebars.registerHelper("userDataParser", (template, userData) => {
     if (typeof template === "string")
         return Handlebars.helpers.stringParser(template, userData);
