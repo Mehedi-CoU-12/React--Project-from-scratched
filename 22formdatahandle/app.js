@@ -18,6 +18,7 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "views"));
 
+
 //middlewares
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -106,6 +107,13 @@ Handlebars.registerHelper("userDataParser", (template, userData) => {
 
     // return template;
 });
+
+//header
+Handlebars.registerPartial("header","<header>Header</header>")
+
+//footer
+Handlebars.registerPartial("footer", "<footer>© 2025</footer>");
+
 
 app.get("/", (req, res) => {
     res.render("form");
